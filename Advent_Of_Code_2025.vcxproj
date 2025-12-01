@@ -124,6 +124,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Advent_Of_Code_2025.cpp" />
+    <ClCompile Include="Day1.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Day1.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
