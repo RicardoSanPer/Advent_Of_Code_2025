@@ -39,7 +39,7 @@ int Day1::getTimes(std::string input)
 
 /// @brief Rotates the dial. Everytime it lands in '0' it updates the password.
 /// @param input Input in the format Direction + Times to turn
-void Day1::Rotate(std::string input)
+void Day1::passInputLine(std::string input)
 {
 	if (input.empty())
 	{
@@ -71,9 +71,8 @@ void Day1::Rotate(std::string input)
 	}
 }
 
-/// @brief Retrieves the password
-/// @return password
-int Day1::GetPassword()
+/// @brief Prints the password
+void Day1::printAnswer()
 {
-	return password;
+	std::cout << password << std::endl;
 }

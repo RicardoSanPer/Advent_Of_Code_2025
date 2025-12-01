@@ -2,6 +2,9 @@
 #include <fstream>
 #include <string>
 
+#include "Problem.h"
+#include "Day1.h"
+
 int extractProblemNumber(char *argv[]);
 
 int main(int argc, char *argv[])
@@ -35,12 +38,29 @@ int main(int argc, char *argv[])
         return 0;
     }
     
-    std::string line;
 
-    while (std::getline(fileinput, line))
+    Problem *problem = nullptr;
+    //Select problem to solve
+    switch (selected_problem)
     {
-        std::cout << line << std::endl;
+        case 1:
+        {
+            Day1 day1;
+            problem = static_cast<Problem*>(&day1);
+        }
+        default:
+            break;
     }
+
+    if (problem == nullptr)
+    {
+        std::cerr << "Something went wrong with instancing the problem" << std::endl;
+        fileinput.close();
+        return 0;
+    }
+
+    //Solve problem
+    problem->Solve(fileinput);
 
     fileinput.close();
 }
