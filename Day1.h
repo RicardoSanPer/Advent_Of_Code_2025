@@ -12,6 +12,7 @@ private:
 	int dial_pos = 50;
 	int max_dial_pos = 99;
 	int password = 0;
+	int password2 = 0;
 
 	int getDirection(char c);
 	int getTimes(std::string input);

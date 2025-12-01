@@ -37,7 +37,6 @@ int main(int argc, char *argv[])
         std::cerr << "Could not open file: " << argv[2] << std::endl;
         return 0;
     }
-    
 
     Problem *problem = nullptr;
     //Select problem to solve
@@ -47,16 +46,14 @@ int main(int argc, char *argv[])
         {
             Day1 day1;
             problem = static_cast<Problem*>(&day1);
+            break;
         }
         default:
-            break;
-    }
-
-    if (problem == nullptr)
-    {
-        std::cerr << "Something went wrong with instancing the problem" << std::endl;
-        fileinput.close();
-        return 0;
+        {
+            std::cerr << "Something went wrong with instancing the problem" << std::endl;
+            fileinput.close();
+            return 0;
+        }
     }
 
     //Solve problem

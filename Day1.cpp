@@ -61,9 +61,43 @@ void Day1::passInputLine(std::string input)
 	}
 
 	//Rotate
+	int prev_dial_pos = dial_pos;
 	dial_pos += direction * times;
-	dial_pos = dial_pos % (max_dial_pos + 1);
+	int m = max_dial_pos + 1;
 	
+	//If dial position goes to any dial number over 99
+	if (dial_pos > 0)
+	{
+		//Every multiple of 100 is a time the dial went over 99 (passed or landed on 0)
+		password2 += (int)(dial_pos / m);
+	}
+	//If dial goes under 0
+	else if (dial_pos < 0)
+	{
+		//Add one if dial went from non zero to under zero
+		if (prev_dial_pos > 0)
+		{
+			password2++;
+		}
+		//Every multiple of -100 is a time the dial went under 0
+		password2 -= (int)(dial_pos / m);
+	}
+	//If it goes from nonzero to zero
+	else
+	{
+		password2++;
+	}
+
+
+	dial_pos = dial_pos % m;
+	
+	//Correction for modulo of negative numbers
+	if (dial_pos < 0)
+	{
+		dial_pos += m;
+		dial_pos = dial_pos % m;
+	}
+
 	//Update password
 	if (dial_pos == 0)
 	{
@@ -74,5 +108,5 @@ void Day1::passInputLine(std::string input)
 /// @brief Prints the password
 void Day1::printAnswer()
 {
-	std::cout << password << std::endl;
+	std::cout << "Solution to Part 1: " << password << "\nSolution to Part 2: " << password2 << std::endl;
 }
