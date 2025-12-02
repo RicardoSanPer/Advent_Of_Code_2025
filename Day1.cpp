@@ -1,0 +1,112 @@
+#include "Day1.h"
+#include <iostream>
+
+/// @brief Given a character, determines if it is rotating left or right. Input is in the form 'LN' or 'RN', where L and R are the directions to extract
+/// @param c Direction
+/// @return -1 for left, 1 for right, 0 if invalid
+int Day1::getDirection(char c)
+{
+	int multiplier = 0;
+	if (c == 'L' || c == 'l')
+	{
+		multiplier = -1;
+	}
+	else if (c == 'R' || c == 'r')
+	{
+		multiplier = 1;
+	}
+	return multiplier;
+}
+
+/// @brief Given an input, determines how many times to turn the dial. Input is in the form 'LN' or 'RN', where N is the number to extract
+/// @param input
+/// @return Number of times to turn, -1 if invalid number
+int Day1::getTimes(std::string input)
+{
+	int value = 0;
+	for (int i = 1; i < input.length(); i++)
+	{
+		int digit = input[i] - '0';
+		if (digit < 0 || digit > 9)
+		{
+			return -1;
+		}
+		value *= 10;
+		value += digit;
+	}
+	return value;
+}
+
+/// @brief Rotates the dial. Everytime it lands in '0' it updates the password.
+/// @param input Input in the format Direction + Times to turn
+void Day1::passInputLine(std::string input)
+{
+	if (input.empty())
+	{
+		return;
+	}
+	//Get direction
+	int direction = getDirection(input[0]);
+	if (direction == 0)
+	{
+		std::cerr << "Not a valid direction: " << input << "\n Must be 'L' or 'R'" << std::endl;
+		return;
+	}
+	//Get times to turn
+	int times = getTimes(input);
+	if (times < 0)
+	{
+		std::cerr << "Not a valid number: " << input << std::endl;
+		return;
+	}
+
+	//Rotate
+	int prev_dial_pos = dial_pos;
+	dial_pos += direction * times;
+	int m = max_dial_pos + 1;
+	
+	//If dial position goes to any dial number over 99
+	if (dial_pos > 0)
+	{
+		//Every multiple of 100 is a time the dial went over 99 (passed or landed on 0)
+		password2 += (int)(dial_pos / m);
+	}
+	//If dial goes under 0
+	else if (dial_pos < 0)
+	{
+		//Add one if dial went from non zero to under zero
+		if (prev_dial_pos > 0)
+		{
+			password2++;
+		}
+		//Every multiple of -100 is a time the dial went under 0
+		password2 -= (int)(dial_pos / m);
+	}
+	//If it goes from nonzero to zero
+	else
+	{
+		password2++;
+	}
+
+
+	dial_pos = dial_pos % m;
+	
+	//Correction for modulo of negative numbers
+	if (dial_pos < 0)
+	{
+		dial_pos += m;
+		dial_pos = dial_pos % m;
+	}
+
+	//Update password
+	if (dial_pos == 0)
+	{
+		password++;
+	}
+}
+
+/// @brief Prints the password
+void Day1::printAnswer()
+{
+	std::cout << "Solution to Part 1: " << password << "\nSolution to Part 2: " << password2 << std::endl;
+}

@@ -1,20 +1,86 @@
-// Advent_Of_Code_2025.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <fstream>
+#include <string>
 
-int main()
+#include "Problem.h"
+#include "Day1.h"
+
+int extractProblemNumber(char *argv[]);
+
+int main(int argc, char *argv[])
 {
-    std::cout << "Hello World!\n";
+    //A problem number has to be supplied
+    if (argc < 2)
+    {
+        std::cerr << "No problem supplied" << std::endl;
+        return 0;
+    }
+    //An input file has to be supplied
+    if (argc < 3)
+    {
+        std::cerr << "No input file provided" << std::endl;
+        return 0;
+    }
+
+    int selected_problem = extractProblemNumber(argv);
+    //Problem number must be valid
+    if (selected_problem < 1)
+    {
+        std::cerr << "Invalid problem number: " << argv[1] << std::endl;
+        return 0;
+    }
+
+    std::ifstream fileinput(argv[2], std::ios::in);
+    //If file couldnt be opened
+    if (!fileinput.is_open())
+    {
+        std::cerr << "Could not open file: " << argv[2] << std::endl;
+        return 0;
+    }
+
+    Problem *problem = nullptr;
+    //Select problem to solve
+    switch (selected_problem)
+    {
+        case 1:
+        {
+            Day1 day1;
+            problem = static_cast<Problem*>(&day1);
+            break;
+        }
+        default:
+        {
+            std::cerr << "Something went wrong with instancing the problem" << std::endl;
+            fileinput.close();
+            return 0;
+        }
+    }
+
+    //Solve problem
+    problem->Solve(fileinput);
+
+    fileinput.close();
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+/// @brief Extracts the numeric value of the first command line argument, assuming it is an positive integer
+/// @param argv Command line arguments
+/// @return Numeric value, -1 if it is not a positive integer
+int extractProblemNumber(char* argv[])
+{
+    int value = 0;
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+    //Iterate through each digit until \0
+    for (int i = 0; argv[1][i] != '\0'; i++)
+    {
+        value *= 10;
+        int digit = argv[1][i] - '0';
+
+        if (digit < 0 || digit > 9)
+        {
+            return -1;
+        }
+
+        value += digit;
+    }
+    return value;
+}
