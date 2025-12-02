@@ -15,8 +15,12 @@ void Day2::process(std::string id1, std::string id2)
 	{
 		if (!checkForIdValidity(std::to_string(i)))
 		{
-			sum += i;
-			//std::cout << "Invalid: " << i << std::endl;
+			sum_part1 += i;
+		}
+		if (!checkForIdValidity2(std::to_string(i)))
+		{
+			sum_part2 += i;
+			i++;
 		}
 	}
 }
@@ -50,6 +54,47 @@ bool Day2::checkForIdValidity(std::string input)
 	//Compare each char of the first and second half. If there's any differente, then the ID is valid
 	return input.substr(0, half) != input.substr(half);
 }
+
+bool Day2::checkForIdValidity2(std::string input)
+{
+	//For part 2. We find factors for the length
+	std::vector<int> factors = {};
+	for (int i = 2; i <= input.length(); i++)
+	{
+		if (input.length() % i == 0)
+		{
+			factors.push_back(i);
+		}
+	}
+
+	//For each factor
+	for (int factor : factors)
+	{
+		bool different = false;
+		int length = input.length() / factor;
+
+		//We compare the first block with all the others
+		for (int i = 1; i < factor; i++)
+		{
+			if (input.substr(0, length) != input.substr(length * i, length))
+			{
+				different = true;
+				break;
+			}
+		}
+		//If blocks are different, try next factor
+		if (different)
+		{
+			different = false;
+			continue;
+		}
+		//Otherwise, blocks are equal and the id is not valid
+		return false;
+	}
+
+	return true;
+}
+
 /// @brief Obtains the ranges from the input
 /// @param input 
 void Day2::passInputLine(std::string input)
@@ -90,11 +135,12 @@ void Day2::passInputLine(std::string input)
 			}
 		}
 	}
-	//Process last pair
+	//Process last pair in case of eof/eol
 	process(id1, id2);
 }
 
 void Day2::printAnswer()
 {
-	std::cout << "Sum of invalid IDs: " << sum << std::endl;
+	std::cout << "Answer for part 1: " << sum_part1 << std::endl;
+	std::cout << "Answer for part 2: " << sum_part2 << std::endl;
 }
