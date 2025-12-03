@@ -17,3 +17,13 @@ The third case, turning left but not underflowing, I failed to account until the
 
 The implementation of the solution proved to be more difficult than I expected partially because I was also under the impression that the % operator in C++ is not a modulo operator, but rather a remainder operator, meaning the logic of the program broke when dealing with negative numbers. Once I learned of this blunder I was finally able to solve the second part, although I am surprised it somehow did not break the solution for the first part of the problem.
 
+## Notes from Day 2
+This problem was challenging as well.
+
+My first mistake was not understanding what the problem asked for. Given the range n-m, I first thought I only had to check if n or m were invalid IDs, it wasnt until I started getting wrong values that I noticed they were ranges for the IDs to test.
+
+After that clarification my approach to the problem was to find the factors for the number of digits in each ID to make easier finding and testing the blocks of digits for invalid IDs. So if an ID could be, for example, be separated into blocks of 2, 3, 5 digits, then I could simply create a substring with the first block of size n and compare it with the rest of blocks of size n in the string. For the first part it was trivial as it only needed to be tested for bock sizes half the length of the ID. When testing the blocks, if there's a mismatch, then I can continue testing with the next block size. If all block sizes mismatched, then it is a valid ID. Otherwise it is invalid, and the number could be parsed into a numeric value.
+
+This is where I found the biggest issue I ran into in this problem. I was parsing the strings into ints, failing to account for values that were too big for an int, unintentionally overflowing them and causing the final sum to be off. This was fixed by changing the corresponding datatypes into uint64_t.
+
+The second issue I ran into, although a lesser one, was that I failed to account for EoL and EoF when parsing the input, causing the last range in the list to not be processed. This was fixed by simply processing the last recorded range outside of the for loop that extracts and processes.

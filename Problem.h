@@ -6,7 +6,7 @@
 class Problem
 {
 private:
-	/// @brief Pass the current input line to solve
+	/// @brief Pass the current input line to interpret as needed by the problem
 	/// @param inputLine 
 	void virtual passInputLine(std::string inputLine) {}
 	/// @brief Prints the answer
