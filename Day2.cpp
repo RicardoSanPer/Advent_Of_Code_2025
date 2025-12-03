@@ -8,8 +8,8 @@
 /// @param id2 upper limit
 void Day2::process(std::string id1, std::string id2)
 {
-	uint64_t low = stringToInt(id1);
-	uint64_t top = stringToInt(id2);
+	uint64_t low = stringToUint64(id1);
+	uint64_t top = stringToUint64(id2);
 
 	for (uint64_t i = low; i <= top; i++)
 	{
@@ -27,7 +27,7 @@ void Day2::process(std::string id1, std::string id2)
 /// @brief Convert a string to int, assuming it is valid
 /// @param s 
 /// @return int
-uint64_t Day2::stringToInt(std::string s)
+uint64_t Day2::stringToUint64(std::string s)
 {
 	uint64_t value = 0;
 	for (char c : s)

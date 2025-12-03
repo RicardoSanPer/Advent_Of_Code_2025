@@ -5,6 +5,7 @@
 #include "Problem.h"
 #include "Day1.h"
 #include "Day2.h"
+#include "Day3.h"
 
 int extractProblemNumber(char *argv[]);
 
@@ -53,6 +54,12 @@ int main(int argc, char *argv[])
         {
             Day2 day2;
             problem = static_cast<Problem*>(&day2);
+            break;
+        }
+        case 3:
+        {
+            Day3 day3;
+            problem = static_cast<Problem*>(&day3);
             break;
         }
         default:
