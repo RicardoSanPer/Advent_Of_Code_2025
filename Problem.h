@@ -17,5 +17,6 @@ public:
 	/// @brief Solve the problem
 	/// @param input Input File Stream
 	void Solve(std::ifstream& input);
+	uint64_t stringToUint64(std::string input);
 };
 

@@ -1,5 +1,5 @@
 #include "Problem.h"
-
+#include <iostream>
 int Problem::stringToInt(std::string input)
 {
     int sum = 0;
@@ -11,6 +11,17 @@ int Problem::stringToInt(std::string input)
     }
 
     return sum;
+}
+
+uint64_t Problem::stringToUint64(std::string input)
+{
+    uint64_t value = 0;
+    for (char c : input)
+    {
+        value *= 10;
+        value += c - '0';
+    }
+    return value;
 }
 
 /// @brief Solves a problem

@@ -24,19 +24,6 @@ void Day2::process(std::string id1, std::string id2)
 		}
 	}
 }
-/// @brief Convert a string to int, assuming it is valid
-/// @param s 
-/// @return int
-uint64_t Day2::stringToUint64(std::string s)
-{
-	uint64_t value = 0;
-	for (char c : s)
-	{
-		value *= 10;
-		value += c - '0';
-	}
-	return value;
-}
 
 /// @brief Check for the validity of an ID, that is the number is not a sequence of numbers repeating twice
 /// @param input 
