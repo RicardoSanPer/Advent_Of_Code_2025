@@ -20,10 +20,40 @@ The implementation of the solution proved to be more difficult than I expected p
 ## Notes from Day 2
 This problem was challenging as well.
 
-My first mistake was not understanding what the problem asked for. Given the range n-m, I first thought I only had to check if n or m were invalid IDs, it wasnt until I started getting wrong values that I noticed they were ranges for the IDs to test.
+My first mistake was not understanding what the problem asked for. Given the range n-m, I first 
+thought I only had to check if n or m were invalid IDs, it wasnt until I started getting wrong values that I noticed they were ranges for the IDs to test.
 
-After that clarification my approach to the problem was to find the factors for the number of digits in each ID to make easier finding and testing the blocks of digits for invalid IDs. So if an ID could be, for example, be separated into blocks of 2, 3, 5 digits, then I could simply create a substring with the first block of size n and compare it with the rest of blocks of size n in the string. For the first part it was trivial as it only needed to be tested for bock sizes half the length of the ID. When testing the blocks, if there's a mismatch, then I can continue testing with the next block size. If all block sizes mismatched, then it is a valid ID. Otherwise it is invalid, and the number could be parsed into a numeric value.
+After that clarification my approach to the problem was to find the factors for the number of 
+digits in each ID to make easier finding and testing the blocks of digits for invalid IDs. So 
+if an ID could be, for example, be separated into blocks of 2, 3, 5 digits, then I could simply
+create a substring with the first block of size n and compare it with the rest of blocks of 
+size n in the string. For the first part it was trivial as it only needed to be tested for block 
+sizes half the length of the ID. When testing the blocks, if there's a mismatch, then I can 
+continue testing with the next block size. If all block sizes mismatched, then it is a valid ID. 
+Otherwise it is invalid, and the number could be parsed into a numeric value.
 
-This is where I found the biggest issue I ran into in this problem. I was parsing the strings into ints, failing to account for values that were too big for an int, unintentionally overflowing them and causing the final sum to be off. This was fixed by changing the corresponding datatypes into uint64_t.
+This is where I found the biggest issue I ran into in this problem. I was parsing the strings 
+into ints, failing to account for values that were too big for an int, unintentionally 
+overflowing them and causing the final sum to be off. This was fixed by changing the 
+corresponding datatypes into uint64_t.
 
-The second issue I ran into, although a lesser one, was that I failed to account for EoL and EoF when parsing the input, causing the last range in the list to not be processed. This was fixed by simply processing the last recorded range outside of the for loop that extracts and processes.
+The second issue I ran into, although a lesser one, was that I failed to account for EoL and 
+EoF when parsing the input, causing the last range in the list to not be processed. This was 
+fixed by simply processing the last recorded range outside of the for loop that extracts and 
+processes.
+
+## Notes from Day 3
+This problem was easier to solve as I didn't run into many technical difficulties.
+
+For the first part the algorithm was fairly easy. Starting with a number ```ab``` with digits ```a``` and ```b```, before comparing with any number of the input first, first we compare ```b``` with ```a```. If ```b > a``` then we shift ```b``` to the position of ```a```, since no matter whan digit ```n``` takes the previous place of ```b```, it will result in a number ```bn > ab```. If not, then we compare ```b``` with ```n``` and replace ```b``` if ```n > b```.
+
+For the second part we start by creating a candidate number using the last (rightmost) 12 digits 
+of the input. From there we check the digits of the input (excluding the last 12). When picking 
+a digit ```n```, we compare it first with the leftmost digit of the candidate. If it is smaller, 
+then we can safely discard it. Otherwise, adding it to the candidate will make it larger. To add
+it we the digit ```n``` take the place of the first digit ```a```. Having ```a``` as a leftover
+we compare it to the next digit and the same rules are applied. If it is equal or larger, it takes
+its place and have that next digit ```b``` be tested in the same way to the digit to its right.
+This process continues until some digit is discarded at some point. The process goes from right to
+left to more easily keep the order in which the digits appear in the input as well as keeping
+the largest digits as leftmost as possible to get the largest number possible.
