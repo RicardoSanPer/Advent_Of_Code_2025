@@ -11,9 +11,12 @@ private:
 	void virtual passInputLine(std::string inputLine) {}
 	/// @brief Prints the answer
 	void virtual printAnswer() {}
+
+	int stringToInt(std::string input);
 public:
 	/// @brief Solve the problem
 	/// @param input Input File Stream
 	void Solve(std::ifstream& input);
+	uint64_t stringToUint64(std::string input);
 };
 
