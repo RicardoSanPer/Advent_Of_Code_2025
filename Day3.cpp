@@ -40,7 +40,7 @@ void Day3::solvePart2(std::string input)
 	{
 		char c = input[i];
 
-		//If the current digit being testes is bigger than the leftmost one of the candidate, a shift must be done
+		//If the current digit being tested is bigger or equal than the leftmost one of the candidate, a shift must be done
 		if (c >= number[0])
 		{
 			//Switch the leftmost digit and keep the old one to test the rest of the digits in the candidate
@@ -51,7 +51,7 @@ void Day3::solvePart2(std::string input)
 			{
 				char temp2 = number[j];
 				//If the leftover digit is equal or larger than the right one,
-				//we effectively move the whole block to the right to keep it
+				//it takes it place and the right one must be tested agaisnt the rest
 				if (temp >= number[j])
 				{
 					number[j] = temp;
