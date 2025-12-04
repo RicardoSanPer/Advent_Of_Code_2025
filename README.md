@@ -45,7 +45,11 @@ processes.
 ## Notes from Day 3
 This problem was easier to solve as I didn't run into many technical difficulties.
 
-For the first part the algorithm was fairly easy. Starting with a number ```ab``` with digits ```a``` and ```b```, before comparing with any number of the input first, first we compare ```b``` with ```a```. If ```b > a``` then we shift ```b``` to the position of ```a```, since no matter whan digit ```n``` takes the previous place of ```b```, it will result in a number ```bn > ab```. If not, then we compare ```b``` with ```n``` and replace ```b``` if ```n > b```.
+For the first part the algorithm was fairly easy. Starting with a number ```ab``` with digits ```a``` 
+and ```b```, before comparing with any number of the input first, first we compare ```b``` with ```a```.
+If ```b > a``` then we shift ```b``` to the position of ```a```, since no matter whan digit ```n``` 
+takes the previous place of ```b```, it will result in a number ```bn > ab```. If not, then we compare
+```b``` with ```n``` and replace ```b``` if ```n > b```.
 
 For the second part we start by creating a candidate number using the last (rightmost) 12 digits 
 of the input. From there we check the digits of the input (excluding the last 12). When picking 
@@ -57,3 +61,18 @@ its place and have that next digit ```b``` be tested in the same way to the digi
 This process continues until some digit is discarded at some point. The process goes from right to
 left to more easily keep the order in which the digits appear in the input as well as keeping
 the largest digits as leftmost as possible to get the largest number possible.
+
+## Notes from Day 4
+This day's problem was easy to solve as it is simply a convolution. The implementation for the first part
+was fairly easy. 
+Representing the input as a board the algorithm just iterates over every cell, and for each cell it 
+iterates over the 8 adjacent ones. If it counts 4 rolls, then we continue to the next cell. If it scans
+all adjacent cells and finds less than 4 rolls, then the count of free increments. The behavior was
+slightly changed later for the second part to also change the value of the cell from ```@``` to ```x```
+(and also count ```x``` as a roll) to make easier the removal of free rolls.
+
+For the second part, having the rolls that should be removed marked it was simply a matter of iterating
+the board and changing any ```x``` to ```.```, then searching new rolls to remove with the implementation
+of the first part and once again changing any ```x``` to ```.```, until no rolls were left to remove 
+(that is, the implementation of the first part 
+returns ```0```).
