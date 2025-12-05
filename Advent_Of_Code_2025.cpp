@@ -6,6 +6,7 @@
 #include "Day1.h"
 #include "Day2.h"
 #include "Day3.h"
+#include "Day4.h"
 
 int extractProblemNumber(char *argv[]);
 
@@ -44,24 +45,10 @@ int main(int argc, char *argv[])
     //Select problem to solve
     switch (selected_problem)
     {
-        case 1:
-        {
-            Day1 day1;
-            problem = static_cast<Problem*>(&day1);
-            break;
-        }
-        case 2:
-        {
-            Day2 day2;
-            problem = static_cast<Problem*>(&day2);
-            break;
-        }
-        case 3:
-        {
-            Day3 day3;
-            problem = static_cast<Problem*>(&day3);
-            break;
-        }
+        case 1: problem = new Day1(); break;
+        case 2: problem = new Day2(); break;
+        case 3: problem = new Day3(); break;
+        case 4: problem = new Day4(); break;
         default:
         {
             std::cerr << "Something went wrong with instancing the problem" << std::endl;
@@ -72,7 +59,7 @@ int main(int argc, char *argv[])
 
     //Solve problem
     problem->Solve(fileinput);
-
+    delete problem;
     fileinput.close();
 }
 
