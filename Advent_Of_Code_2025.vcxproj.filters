@@ -33,6 +33,9 @@
     <ClCompile Include="Day4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Day5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Day1.h">
@@ -50,6 +53,9 @@
     <ClInclude Include="Day4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Day5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Day1_input.txt">
@@ -64,9 +70,13 @@
     <Text Include="Day4_input.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="Day5_input.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include=".gitignore">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
