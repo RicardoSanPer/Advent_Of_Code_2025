@@ -7,6 +7,7 @@
 #include "Day2.h"
 #include "Day3.h"
 #include "Day4.h"
+#include "Day5.h"
 
 int extractProblemNumber(char *argv[]);
 
@@ -49,6 +50,7 @@ int main(int argc, char *argv[])
         case 2: problem = new Day2(); break;
         case 3: problem = new Day3(); break;
         case 4: problem = new Day4(); break;
+        case 5: problem = new Day5(); break;
         default:
         {
             std::cerr << "Something went wrong with instancing the problem" << std::endl;

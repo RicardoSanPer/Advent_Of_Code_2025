@@ -76,3 +76,25 @@ the board and changing any ```x``` to ```.```, then searching new rolls to remov
 of the first part and once again changing any ```x``` to ```.```, until no rolls were left to remove 
 (that is, the implementation of the first part 
 returns ```0```).
+
+## Notes from Day 5
+The implementation for the first part was straight forward. Using the ranges I created a list with the
+lower and upper bound of each range. Then when checking IDs, if an ID fell within a range, it was marked
+as fresh.
+
+For the second part my first approach was to use a hasmap to record all unique IDs in the rages. It was a
+naive idea as the program was taking a while, and I remembered that since I'm working with large numbers
+(I learned my mistake from day 1 and used ```uint64_t```), it would take a long time or even possibly run
+out of memory. So my second approach was instead to "trim" the ranges until I was left with ranges with
+unique IDs. For this I came up with the next approach:
+- Picking a range from the list, it is compared with all the subsequent ranges in the list.
+- If the range is a subrange of another, we can skip it and continue, the numbers in
+the range will be included in some next range.
+- If the lower bound of the range is within another range, we shift it up so there is no overlap and continue testing with this new range
+- If the upper bound of the range is within another range, we shift it down so there is no overlap and dontinue testing with this nwe range.
+- If the range is a superset of another range, then we split it into two ranges, such that there's no overlap (like cutting the overlap out). We continue testing with the range at the left, while the one at the right is added to the list of ranges.
+- If there's no overlap, we continue testing.
+- After testing the current range, a simple substration of the upper and lower limits gives the number of unique IDs in the resulting range.
+
+The only problem I ran into this new algorithm was initially failing to account for the super ranges case,
+causing the overlapped portions to be counted twice and resulting in a higher number of unique IDs.
