@@ -98,3 +98,38 @@ the range will be included in some next range.
 
 The only problem I ran into this new algorithm was initially failing to account for the super ranges case,
 causing the overlapped portions to be counted twice and resulting in a higher number of unique IDs.
+
+## Notes from Day 6
+The first part had a fairly easy implementation. The input is treated like a matrix of values. 
+After extracting the values the matrix is transposed.
+The operators are extracted and saved in an external string.
+Lastly it iterates over each character in the operator string, the index of the operator indicating the
+column it is applied to, for which the corresponding operator is applied and the result added to the total
+result of the problem.
+
+For the second part the input is treated as if it was transposed as well, so an input:
+
+
+```
+123
+456
+789
+```
+
+Is read as if it was fed
+
+```
+147
+258
+369
+```
+
+Similar to part 1, but the transpose is applied to the raw input and not to the matrix of extracted values.
+
+Having this transposed input one value is extracted per line, ignoring spaces. Lines with no numbers mark
+where one column ends, so at this point the corresponding operator is applied to obtain the value of the
+column and added to the total for the problem.
+
+In summary, both parts have the same approach: they treat the input like a matrix that is transposed for
+ease of use, the difference being that in part 1 it is applied to the values, while in the second part it
+is applied to the input itself (the raw chars).
