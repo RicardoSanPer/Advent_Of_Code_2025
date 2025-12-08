@@ -133,3 +133,23 @@ column and added to the total for the problem.
 In summary, both parts have the same approach: they treat the input like a matrix that is transposed for
 ease of use, the difference being that in part 1 it is applied to the values, while in the second part it
 is applied to the input itself (the raw chars).
+
+## Notes from Day 7
+For the first part I used a "buffer" string that keeps track of which cells contain a beam. Starting with a single
+beam in the position corresponding to the starting point, whenever a split ```^``` is found in the input, it
+checks if the previous cell (the corresponding cell in the buffer) is a beam. If it is, it splits the beam
+into the two adjacent cells and clears the current one, adding to the count of splits. Otherwise the cell is
+unchanged.
+
+For the second part, my first implementation was to use recursion to traverse all the paths and count how many
+there are. However this proved to not work as the process would take too long for it to be practical. So I changed
+to work similarly to the first part. In this case a "buffer" is used to count how manybeams overlap in a cell
+in a row, or in other words how many paths can be taken to reach a particular cell. 
+
+The algorithm begins by assigning ```1``` to the cell corresponding to the starting point and ```0```
+to all other cells, as at this point there is a single path to the cell. It iterates through each row in the input
+and when a split is found, the number of paths is added to the number of paths of the two adjacent cells, while
+clearing the current one as it is now in the shadow of a split. This is because if a cell has ```n``` paths to
+reach it and a beam is split into it overlapping, then there are ```n``` paths from the original cell, plus
+the ```m``` paths it took to reach the split that overlapped the beams. The final number of paths is obtained by
+adding all the values in the final buffer.
