@@ -4,7 +4,8 @@
 /// 2. When all vectors have been extracted, calculate distance from each one to the others
 ///		and keep the 10/1000 pairs with the shortest distances
 /// 3. Use the list of pairs to create the circuits
-/// 
+/// 4. If neither box is in a circuit, create a new one with those two. If one is and the other isnt,
+///		add the later to the same circuit as the former. If both are in different circuits, merge the circuits
 
 /// @brief Function to sort list of pairs by distance in ascending order
 /// @param p1 
@@ -64,7 +65,6 @@ void Day8::processPart1()
 		}
 	}
 
-	std::cout << circuits2.size() << std::endl;
 	std::sort(circuits.begin(), circuits.end(), compareSets);
 
 	for (int i = 0; i < 3; i++)
