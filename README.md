@@ -153,3 +153,33 @@ clearing the current one as it is now in the shadow of a split. This is because 
 reach it and a beam is split into it overlapping, then there are ```n``` paths from the original cell, plus
 the ```m``` paths it took to reach the split that overlapped the beams. The final number of paths is obtained by
 adding all the values in the final buffer.
+
+## Notes from Day 8
+Today's problem was not too difficult, but still took time time to implement because it required the use of data
+structures.
+
+For the first part the algorithm was simple. All positions (vectors) are stored in a list. For this a struct ```JoltBox```
+was used that contains the coordinates of each jolt box and an ID for easy access in the list. Once all vectors
+have been extracted, all unique pairings of jolt boxes and their distances are obtained. For this a second
+struct ```Pair``` was used to store the ID of the two vectors that form the connection and the squared euclidean distance.
+Each new pair compares their distance with that of the pair with the longest distance in the list of max pairings,
+and if the distance of the new pair is shorter, then it replaces it in the list. The list of max pairings contains
+the pairings of jolt boxes with the shortests distances, with a max of 1000 pairings as per the problem's 
+requirements. Once all unique pairings have been tested and the list contains the 1000 pairings with the
+shortest distances, the list is sorted by distance in ascending order and the circuit is built based on this order,
+building first with the shortest paiings available. 
+
+A list of sets is used to represent the circuits. For each
+pairing in the list of pairs, we check if any of the jolt boxes are already in any circuit. If neither is in any
+circuit then a new one is created with them. If one is already in a circuit and the other isnt, then the jolt
+without a circuit is added to the same one. If both are in different circuits, then both circuits are merged.
+If both are already in the same circuit, then nothing happens. Once all possible circuits are built, the list
+is simply ordered and the size of the 3 largest circuits are multiplied for the answer.
+
+The second part proved to be easier to implement. For this a second list of pairings and circuits is used. In
+this case the list of pairs does not have a limit for the number of elements, so it contains all unique pairings,
+also sorted by their distances in ascending order. As for the circuits, the same construction algorithm is used,
+producing in this case a single circuit containing all jolt boxes since there was no limit to the pairings to use.
+However it was modified to return a boolean value to indicate if a new pairing was added to the circuit in order
+to keep track of the last pair of jolt boxes connected, so their ```x``` positions could be multiplied for the
+answer to the second part.
