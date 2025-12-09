@@ -183,3 +183,11 @@ producing in this case a single circuit containing all jolt boxes since there wa
 However it was modified to return a boolean value to indicate if a new pairing was added to the circuit in order
 to keep track of the last pair of jolt boxes connected, so their ```x``` positions could be multiplied for the
 answer to the second part.
+
+### Optimization
+On revision the solution was otimized. The algorithm is pretty much the same, the difference being that now
+a single list of pairs is used for both parts. This one contains all unique pairs and is sorted by the distance
+of the pairs after all have been added, avoiding wasted time from modifying elements in the list.
+
+Afterwards to construct the circuits, for the circuit in the first part it simply limits itself to the first 1000
+pairs in the list. The second one remains unchanged, except that it uses now the same list.
