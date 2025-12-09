@@ -45,17 +45,28 @@ void Day8::processPart1()
 			addToPairs(box1->id, box2->id, distance);
 		}
 	}
-
-	//Sort list
+	//Sort lists
 	std::sort(pairs.begin(), pairs.end(), comparePairs);
+	std::sort(pairs2.begin(), pairs2.end(), comparePairs);
 
-	//create circuits
+	//create circuits for part 1
 	for (Pair* pair : pairs)
 	{
-		addToCircuits(pair->id1, pair->id2);
+		addToCircuits(pair->id1, pair->id2, circuits);
 	}
 
+	//Create circuit for part 2
+	for (Pair* pair : pairs2)
+	{
+		if (addToCircuits(pair->id1, pair->id2, circuits2))
+		{
+			answer2 = boxes[pair->id1]->x * boxes[pair->id2]->x;
+		}
+	}
+
+	std::cout << circuits2.size() << std::endl;
 	std::sort(circuits.begin(), circuits.end(), compareSets);
+
 	for (int i = 0; i < 3; i++)
 	{
 		answer1 *= circuits[i].size();
@@ -68,14 +79,17 @@ void Day8::processPart1()
 /// @param length 
 void Day8::addToPairs(int idBox1, int idBox2, uint64_t length)
 {
+	Pair* pair = new Pair();
+	pair->id1 = idBox1;
+	pair->id2 = idBox2;
+	pair->length = length;
+
+	//Add to list of pairs for part 2
+	pairs2.push_back(pair);
+
 	//If max size of shortest lengths hasnt been filled, add
 	if (pairs.size() < pairsToKeep)
 	{
-		Pair* pair = new Pair();
-		pair->id1 = idBox1;
-		pair->id2 = idBox2;
-		pair->length = length;
-
 		pairs.push_back(pair);
 	}
 	//Else replace highest distance pair with the current if lower
@@ -101,19 +115,20 @@ void Day8::addToPairs(int idBox1, int idBox2, uint64_t length)
 /// @brief Given the id of two vectors it tries to add them to the circuits
 /// @param idBox1 
 /// @param idBox2 
-void Day8::addToCircuits(int idBox1, int idBox2)
+/// @return bool Indicates if a new connection was made
+bool Day8::addToCircuits(int idBox1, int idBox2, std::vector<std::set<int>>&sets)
 {
 	int idCircuit1 = -1;
 	int idCircuit2 = -1;
 
 	//Find if the jolt boxes exist in a circuit already
-	for (int i = 0; i < circuits.size(); i++)
+	for (int i = 0; i < sets.size(); i++)
 	{
-		if (circuits[i].count(idBox1))
+		if (sets[i].count(idBox1))
 		{
 			idCircuit1 = i;
 		}
-		if (circuits[i].count(idBox2))
+		if (sets[i].count(idBox2))
 		{
 			idCircuit2 = i;
 		}
@@ -126,25 +141,32 @@ void Day8::addToCircuits(int idBox1, int idBox2)
 		if (idCircuit1 == idCircuit2)
 		{
 			std::set<int> newCircuit = { idBox1, idBox2 };
-			circuits.push_back(newCircuit);
+			sets.push_back(newCircuit);
 		}
 		//Else add the circuit without a circuit into the circuit that contains the other one.
 		else if (idCircuit1 == -1)
 		{
-			circuits[idCircuit2].insert(idBox1);
+			sets[idCircuit2].insert(idBox1);
 		}
 		else
 		{
-			circuits[idCircuit1].insert(idBox2);
+			sets[idCircuit1].insert(idBox2);
 		}
+
+		return true;
 	}
 	//Otherwise if both are in a set but different ones, merge sets
 	else if(idCircuit1 != idCircuit2)
 	{
-		circuits[idCircuit1].insert(circuits[idCircuit2].begin(), circuits[idCircuit2].end());
-		circuits.erase(circuits.begin() + idCircuit2);
+		sets[idCircuit1].insert(sets[idCircuit2].begin(), sets[idCircuit2].end());
+		sets.erase(sets.begin() + idCircuit2);
+
+		return true;
 	}
+
 	//if they're already in the same circuit, do nothing
+	//Since no connection is made, return false
+	return false;
 }
 
 /// @brief Squared euclidean distance
@@ -245,4 +267,5 @@ void Day8::printAnswer()
 	}*/
 
 	std::cout << "Answer to part 1: " << answer1 << std::endl;
+	std::cout << "Answer to part 2: " << answer2 << std::endl;
 }
