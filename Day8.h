@@ -28,7 +28,6 @@ class Day8 : public Problem
 {
 	std::vector<JunctionBox*> boxes;
 	std::vector<Pair*> pairs;
-	std::vector<Pair*> pairs2;
 
 	std::vector<std::set<int>> circuits;
 	std::vector<std::set<int>> circuits2;
@@ -40,7 +39,6 @@ class Day8 : public Problem
 	uint64_t answer2 = 0;
 
 	void processPart1();
-	void addToPairs(int idBox1, int idBox2, uint64_t length);
 	bool addToCircuits(int idBox1, int idBox2, std::vector<std::set<int>>& sets);
 
 	uint64_t getSquareDistance(JunctionBox* box1, JunctionBox* box2);

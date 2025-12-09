@@ -42,22 +42,32 @@ void Day8::processPart1()
 			box2 = boxes[j];
 			uint64_t distance = getSquareDistance(box1, box2);
 
-			//Check against the list of shortest distances, keep if applies
-			addToPairs(box1->id, box2->id, distance);
+			Pair* pair = new Pair();
+			pair->id1 = i;
+			pair->id2 = j;
+			pair->length = distance;
+
+			//Add to list of pairs for part 2
+			pairs.push_back(pair);
 		}
 	}
 	//Sort lists
 	std::sort(pairs.begin(), pairs.end(), comparePairs);
-	std::sort(pairs2.begin(), pairs2.end(), comparePairs);
 
 	//create circuits for part 1
-	for (Pair* pair : pairs)
+	for (int i = 0; i < pairsToKeep; i++)
 	{
-		addToCircuits(pair->id1, pair->id2, circuits);
+		addToCircuits(pairs[i]->id1, pairs[i]->id2, circuits);
+	}
+
+	std::sort(circuits.begin(), circuits.end(), compareSets);
+	for (int i = 0; i < 3; i++)
+	{
+		answer1 *= circuits[i].size();
 	}
 
 	//Create circuit for part 2
-	for (Pair* pair : pairs2)
+	for (Pair* pair : pairs)
 	{
 		if (addToCircuits(pair->id1, pair->id2, circuits2))
 		{
@@ -65,51 +75,7 @@ void Day8::processPart1()
 		}
 	}
 
-	std::sort(circuits.begin(), circuits.end(), compareSets);
-
-	for (int i = 0; i < 3; i++)
-	{
-		answer1 *= circuits[i].size();
-	}
-}
-
-/// @brief Given two vectors it tries to add the edge between them to the list of the shortest edges
-/// @param idBox1 
-/// @param idBox2 
-/// @param length 
-void Day8::addToPairs(int idBox1, int idBox2, uint64_t length)
-{
-	Pair* pair = new Pair();
-	pair->id1 = idBox1;
-	pair->id2 = idBox2;
-	pair->length = length;
-
-	//Add to list of pairs for part 2
-	pairs2.push_back(pair);
-
-	//If max size of shortest lengths hasnt been filled, add
-	if (pairs.size() < pairsToKeep)
-	{
-		pairs.push_back(pair);
-	}
-	//Else replace highest distance pair with the current if lower
-	else
-	{
-		if (length < pairs[highestDistanceIndex]->length)
-		{
-			pairs[highestDistanceIndex]->id1 = idBox1;
-			pairs[highestDistanceIndex]->id2 = idBox2;
-			pairs[highestDistanceIndex]->length = length;
-		}
-	}
-	//Update index of the largest pair in order to facilitate modification
-	for (int i = 0; i < pairs.size(); i++)
-	{
-		if (pairs[i]->length > pairs[highestDistanceIndex]->length)
-		{
-			highestDistanceIndex = i;
-		}
-	}
+	
 }
 
 /// @brief Given the id of two vectors it tries to add them to the circuits
@@ -246,25 +212,6 @@ void Day8::passInputLine(std::string input)
 void Day8::printAnswer()
 {
 	processPart1();
-
-	/*for (Pair* pair : pairs)
-	{
-		JunctionBox* box1 = boxes[pair->id1];
-		JunctionBox* box2 = boxes[pair->id2];
-
-		std::cout << box1->x << ", " << box1->y << ", " << box1->z << " -> ";
-		std::cout << box2->x << ", " << box2->y << ", " << box2->z << " : " << pair->length << std::endl;
-	}
-	for (std::set<int> circuit : circuits)
-	{
-		
-		std::cout << " : " << circuit.size() << " : ";
-		for (int i : circuit)
-		{
-			std::cout << i << " ";
-		}
-		std::cout << std::endl;
-	}*/
 
 	std::cout << "Answer to part 1: " << answer1 << std::endl;
 	std::cout << "Answer to part 2: " << answer2 << std::endl;
