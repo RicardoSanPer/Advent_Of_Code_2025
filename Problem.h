@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include<fstream>
+#include <iostream>
 
 /// @brief Base class for problems
 class Problem
