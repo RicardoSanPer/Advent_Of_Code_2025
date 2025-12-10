@@ -191,3 +191,27 @@ of the pairs after all have been added, avoiding wasted time from modifying elem
 
 Afterwards to construct the circuits, for the circuit in the first part it simply limits itself to the first 1000
 pairs in the list. The second one remains unchanged, except that it uses now the same list.
+
+## Notes from Day 9
+The first part was trivial to implement. Once the list of red tiles is extracted, compare the area formed by
+each unique pair used as opposite corners and keep the largest area.
+
+The second part seemed more challenging, but the solution fortunately was correct although a little hacky as it
+depends on many assumptions about the input. The algorithm is as follows:
+
+1. Similarly to part 1, it tests every unique pair of red tiles serving as oposite corners of the rectangle.
+2. Each rectangle is tested against edge of the input. That is, against every pair of adjacent tiles in the
+	list (so the edge between tile 1 and tile 2, then tile 2 and tile 3, and so on).
+3. To test, it checks if both tiles are entirely to the left, right, above or below the rectangle (including 
+	the tiles that make up the edge of the rectangle). If this is the case, continue testing with the next edge.
+4. Otherwise we can assume there's an intersection (for example the edge has one end above the rectangle and one below, 
+	 cutting the rectangle vertically), in which case the rectangle contains tiles that are not green or red, making it
+   an invalid rectangle.
+5. If there's no intersection after testing all edges, then the rectangle is valid and we can compare its area to
+  the highest one recorded.
+
+This approach gave the correct answer, but it is not entirely correct as it makes many assumptions such as:
+	1. The input list of tiles is in order and the order denotes the path to draw a figure's perimeter.
+	2. The shape resulting from the tiles doesnt have self intersections.
+	3. A rectangle with an intersection is always invalid. This fails to account for cases in which a rectangle
+	has many intersections but it still contains only red or green tiles.
