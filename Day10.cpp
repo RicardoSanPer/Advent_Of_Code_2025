@@ -50,7 +50,7 @@ void Day10::passInputLine(std::string input)
 		}
 		if (c == '}')
 		{
-			machine.joltage.push_back(stringToInt(number));
+			machine.joltage += stringToInt(number);
 			number.clear();
 			isJoltage = false;
 			continue;
@@ -71,7 +71,7 @@ void Day10::passInputLine(std::string input)
 				}
 				else if (isJoltage)
 				{
-					machine.joltage.push_back(stringToInt(number));
+					machine.joltage += stringToInt(number);
 				}
 				number.clear();
 				continue;
@@ -142,12 +142,84 @@ void Day10::processPart1()
 					}
 				}
 			}
-
 			queue.pop();
 		}
-		
 		found = false;
+	}
+}
 
+void Day10::processPart2()
+{
+
+	bool found = false;
+
+	int completed = 0;
+
+	for (Machine machine : machines)
+	{
+		std::cout << "Completed " << completed << " out of " << machines.size() << std::endl;
+
+		//Create starting position. All lights turned off and 0 buttons pressed
+		std::queue<std::tuple<std::string, int>> queue;
+		std::string n(machine.lights.size(), 0);
+
+		std::set<std::string> visited;
+
+		queue.push({ n, 0 });
+		visited.insert(n);
+
+		//printMachine(machine);
+
+		//While the desired config isnt found
+		while (!found)
+		{
+			std::tuple<std::string, int> front = queue.front();
+
+
+			//Apply all buttons to the current combination
+			for (std::vector<int> button : machine.buttons)
+			{
+				//Copy string to modify
+				std::string mod(std::get<0>(front));
+				int depth = std::get<1>(front);
+
+				bool valid = true;
+
+				//Switch lights
+				for (int i : button)
+				{
+					mod[i] = mod[i] + 1;
+					if (mod[i] > machine.joltage[i])
+					{
+						valid = false;
+						break;
+					}
+				}
+				if (!valid)
+				{
+					continue;
+				}
+				//If we get the desired config
+				if (mod.compare(machine.joltage) == 0)
+				{
+					found = true;
+					answer2 += depth + 1;
+					break;
+				}
+				else
+				{
+					//if combination never seen before, add to queue and viewed combinations
+					if (visited.find(mod) == visited.end())
+					{
+						queue.push({ mod, depth + 1 });
+						visited.insert(mod);
+					}
+				}
+			}
+			queue.pop();
+		}
+		found = false;
+		completed++;
 	}
 }
 
@@ -168,7 +240,7 @@ void Day10::printMachine(Machine machine)
 	std::cout << " {";
 	for (int j : machine.joltage)
 	{
-		std::cout << j << ' ';
+		std::cout << (int)j << ' ';
 	}
 	std::cout << '\b' << "}";
 
@@ -178,6 +250,8 @@ void Day10::printMachine(Machine machine)
 void Day10::printAnswer()
 {
 	processPart1();
-
 	std::cout << "Answer to part 1: " << answer1 << std::endl;
+
+	processPart2();
+	std::cout << "Answer to part 2: " << answer2 << std::endl;
 }
