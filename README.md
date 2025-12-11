@@ -215,3 +215,14 @@ This approach gave the correct answer, but it is not entirely correct as it make
 	2. The shape resulting from the tiles doesnt have self intersections.
 	3. A rectangle with an intersection is always invalid. This fails to account for cases in which a rectangle
 	has many intersections but it still contains only red or green tiles.
+
+## Notes from day 10
+For part 1 the solution uses breadth first search. Starting with the lights off of a machine it presses each button
+and the result is stored in a queue alongside the number of buttons that have been pressed to reach this combination.
+Aftwerwards each button is pressed once on each element of the queue to build the combinations until one is found
+to be the desired configuration. In order to speed up the process all combniations found are stored in a set
+in order to avoid revisiting combinations already seen.
+
+For the second part a similar approach was attempted. However since this time the configuration for the joltage
+has more states per slot than the lights the process takes significantly longer to the point the result for
+a single machine hasnt been found, thus I havent been able to solve part 2 so far. I might revisit later.
