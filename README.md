@@ -226,3 +226,23 @@ in order to avoid revisiting combinations already seen.
 For the second part a similar approach was attempted. However since this time the configuration for the joltage
 has more states per slot than the lights the process takes significantly longer to the point the result for
 a single machine hasnt been found, thus I havent been able to solve part 2 so far. I might revisit later.
+
+## Notes from Day 11
+For the firs part the solution was trivialy easy. A graph is created in which each node keeps a list of the children.
+The nodes are stored in a hash map by the node ID. Starting from the node ```you``` a depth first traversal is
+done. But this is a naive solution as there could be many nodes between ```you``` and ```out```, although that was
+not the case for the problem's input.
+
+For part 2 my first approach was again a depth first traversal, using flags to mark when the traversal passed
+through both ```dac``` and ```fft```. However in this case DFT did not work as it spanned all nodes in the graph.
+
+For a second approach first I had every node keep track of its parents as well. Each node now also has two
+flags to denote if it is in the path between ```dac/fft``` and ```out``` and between ```svr``` and ```dac/fft```.
+Starting from ```dac``` and ```fft```, it acts as a flood algorithm, flagging all nodes between them and the root
+and end, effectively creating a mask for all paths in the graph that pass through ```dac``` and ```fft```. This
+was done in hopes of limiting the search for paths in the DFT, but it still proved to take too long.
+
+Building upon this, a second approach has the program also keep track how many paths from a given node reach ```out```.
+Using DFT, each node's path count is the sum of the path count of all its children's. In this way the
+traversal can also avoid traversing already visited nodes/paths, as their path number is already calculated. 
+So the number of paths can easily be calculated by adding the path number of all of ```svr``` children.
