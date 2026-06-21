@@ -110,7 +110,7 @@ The second part seemed more challenging, but the solution fortunately was correc
 4.	Otherwise, we can assume there's an intersection (for example the edge has one end above the rectangle and one below, cutting the rectangle vertically), in which case the rectangle contains tiles that are not green or red, making it an invalid rectangle.
 5.	If there's no intersection after testing all edges, then the rectangle is valid and we can compare its area to the highest one recorded.
 
-This approach gave the correct answer, but it is not entirely correct as it makes many assumptions such as 1. The input list of tiles is in order, and the order denotes the path to draw a figure's perimeter. 2. The shape resulting from the tiles doesn’t order, self-intersections. 3. A rectangle with an intersection is always invalid. This fails to account for cases in which a rectangle has many intersections, but it still contains only red or green tiles.
+This approach gave the correct answer, but it is not entirely correct as it makes many assumptions such as 1. The input list of tiles is in order, and the order denotes the path to draw a figure's perimeter. 2. The shape resulting from the tiles doesn’t have self-intersections. 3. A rectangle with an intersection is always invalid. This fails to account for cases in which a rectangle has many intersections, but it still contains only red or green tiles.
 
 
 ## Notes from day 10
@@ -119,7 +119,7 @@ For part 1 the solution uses breadth first search. Starting with the lights off,
 For the second part a similar approach was attempted. However, since this time the configuration for the joltage has more states per slot than the lights the process takes significantly longer to the point the result for a single machine hasn’t been found, thus I haven’t been able to solve part 2 so far. I might revisit later.
 
 ## Notes from Day 11
-For the firs part the solution was trivialy easy. A graph is created in which each node keeps a list of the children.
+For the first part the solution was trivially easy. A graph is created in which each node keeps a list of the children.
 The nodes are stored in a hash map by the node ID. Starting from the node ```you``` a depth first traversal is
 done. But this is a naive solution as there could be many nodes between ```you``` and ```out```, although that was
 not the case for the problem's input.
